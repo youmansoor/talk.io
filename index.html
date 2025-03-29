@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <!-- <h1>Talkitive AI</h1>
+    <input type="text" id="ans" placeholder="Enter your message here...">
+    <button onclick="processInput(this)">Send</button>
+    <script>
+        let knowledge = {
+            "hello": "Hi",
+            "how are you?": "I am Fine, How are you?",
+            "what is your name?": "My name is Two",
+            "default": "I don't Understand!",
+        };
+
+        function processInput(input) {
+            input = input.toLowerCase();
+
+            for (let key in Knowledge) {
+                if (input.includes(key)){
+                    return knowledge[key];
+                }
+            }
+            return knowledge["default"];
+        }
+
+        function generateResponse(input) {
+            let reponse = processInput(input);
+            return response;
+        }
+        let answer = document.getElementById("ans").value;
+        let reponse = generateResponse(answer);
+    </script> -->
+
+    <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Talkitive AI</title>
+</head>
+<body>
+    <h1>Talkitive AI</h1>
+    <input type="text" id="ans" placeholder="Enter your message here...">
+    <button onclick="processInput()">Send</button>
+    <p id="response"></p>
+
+    <script>
+        let knowledge = {
+            "hello": "Hi",
+            "hi": "Hi, there",
+            "how are you": "I am Fine, how are you?",
+            "how are you?": "I am Fine, how are you?",
+            "what is your name": "My name is Two",
+            "two": "Yes, how can I help you!",
+            "what is your name?": "My name is Two",
+            "default": "I don't understand!",
+        };
+
+        function processInput() {
+            let input = document.getElementById("ans").value.toLowerCase();
+            
+            for (let key in knowledge) {
+                if (input.includes(key)) {
+                    document.getElementById("response").innerText = knowledge[key];
+                    document.getElementById("ans").value = "";
+                    return;
+                }
+            }
+            document.getElementById("response").innerText = knowledge["default"];
+        }
+    </script>
+</body>
+</html>
+
+</body>
+</html>
