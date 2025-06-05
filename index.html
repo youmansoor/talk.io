@@ -1,142 +1,176 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Simple Chatbot</title>
+  <meta charset="UTF-8" />
+  <title>Responsive Chatbot</title>
   <style>
+    * {
+      box-sizing: border-box;
+    }
+
     body {
-  font-family: Arial, sans-serif;
-  background: #f0f0f0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-}
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f0f0f0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
 
-.chat-container {
-  width: 90%;
-  background: #fff;
-  border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0,0,0,0.1);
-  padding: 20px;
-}
-
-#chatbox {
-  height: 450px;
-  overflow-y: auto;
-  border: 1px solid #ddd;
-  padding: 10px;
-  margin-bottom: 10px;
-}
-
-#userInput {
-  width: 75%;
-  padding: 8px;
-}
-
-button {
-  padding: 8px 12px;
-  background: #007bff;
-  color: white;
-  border: none;
-  cursor: pointer;
-}
-@media (max-width: 768px){
     .chat-container {
-      width: 90%;
-      padding: 10px;
+      width: 100%;
+      max-width: 500px;
+      height: 90vh;
+      background: #fff;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      padding: 15px;
+      display: flex;
+      flex-direction: column;
     }
+
     #chatbox {
-      height: 90%;
+      flex: 1;
+      overflow-y: auto;
+      border: 1px solid #ddd;
+      padding: 10px;
+      margin-bottom: 10px;
+      background-color: #fafafa;
     }
-    #userInput {
-      width: 70%;
+
+    #chatbox p {
+      margin: 6px 0;
     }
+
+    #userInput,
     button {
-      width: 25%;
+      font-size: 16px;
     }
-}
+
+    .input-group {
+      display: flex;
+      gap: 10px;
+    }
+
+    #userInput {
+      flex: 1;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+
+    button {
+      padding: 10px 16px;
+      background: #007bff;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #0056b3;
+    }
+
+    @media (max-width: 600px) {
+      .chat-container {
+        width: 95%;
+        height: 95vh;
+        padding: 10px;
+      }
+
+      #userInput, button {
+        font-size: 14px;
+      }
+
+      button {
+        padding: 10px;
+      }
+
+      .input-group {
+        flex-direction: column;
+      }
+
+      #userInput {
+        width: 100%;
+      }
+
+      button {
+        width: 100%;
+      }
+    }
   </style>
 </head>
 <body>
   <div class="chat-container">
     <div id="chatbox"></div>
-    <input type="text" id="userInput" placeholder="Type your message...">
-    <button onclick="sendMessage()">Send</button>
+    <div class="input-group">
+      <input type="text" id="userInput" placeholder="Type your message..." />
+      <button onclick="sendMessage()">Send</button>
+    </div>
   </div>
 
   <script>
     function sendMessage() {
-  const userInput = document.getElementById("userInput").value;
-  const chatbox = document.getElementById("chatbox");
+      const userInput = document.getElementById("userInput").value;
+      const chatbox = document.getElementById("chatbox");
 
-  if (!userInput) return;
+      if (!userInput.trim()) return;
 
-  // Add user message
-  chatbox.innerHTML += `<p><strong>You:</strong> ${userInput}</p>`;
+      chatbox.innerHTML += `<p><strong>You:</strong> ${userInput}</p>`;
+      const botResponse = getBotResponse(userInput.toLowerCase());
+      chatbox.innerHTML += `<p><strong>Bot:</strong> ${botResponse}</p>`;
 
-  // Get bot response
-  const botResponse = getBotResponse(userInput.toLowerCase());
-  chatbox.innerHTML += `<p><strong>Bot:</strong> ${botResponse}</p>`;
+      document.getElementById("userInput").value = "";
+      chatbox.scrollTop = chatbox.scrollHeight;
+    }
 
-  // Clear input
-  document.getElementById("userInput").value = "";
-  chatbox.scrollTop = chatbox.scrollHeight;
-}
+    function getBotResponse(input) {
+      input = input.toLowerCase().replace(/[^\w\s]/gi, '');
 
-function getBotResponse(input) {
-    input = input.toLowerCase().replace(/[^\w\s]/gi, '');
-  // Greetings
-  if (input.includes("hi") || input.includes("hello")) return "Hello! How can I help you?";
-  if (input.includes("good morning")) return "Good morning! Hope you have a great day!";
-  if (input.includes("what's up") || input.includes("whats up")) return "Just here to chat with you!";
+      if (input.includes("hi") || input.includes("hello")) return "Hello! How can I help you?";
+      if (input.includes("good morning")) return "Good morning! Hope you have a great day!";
+      if (input.includes("what's up") || input.includes("whats up")) return "Just here to chat with you!";
 
-  // Farewell
-  if (input.includes("bye")) return "Goodbye! Talk to you soon.";
-  if (input.includes("see you")) return "See you later!";
-  if (input.includes("good night")) return "Good night! Sweet dreams.";
+      if (input.includes("bye")) return "Goodbye! Talk to you soon.";
+      if (input.includes("see you")) return "See you later!";
+      if (input.includes("good night")) return "Good night! Sweet dreams.";
 
-  // Small talk
-  if (input.includes("how are you")) return "I'm doing great! How about you?";
-  if (input.includes("what are you doing")) return "Just waiting to chat with you!";
-  if (input.includes("your name")) return "I'm a simple AI chatbot.";
-  if (input.includes("where are you from")) return "I'm from the internet.";
+      if (input.includes("how are you")) return "I'm doing great! How about you?";
+      if (input.includes("what are you doing")) return "Just waiting to chat with you!";
+      if (input.includes("your name")) return "I'm a simple AI chatbot.";
+      if (input.includes("where are you from")) return "I'm from the internet.";
 
-  // AI-related
-  if (input.includes("are you real")) return "I'm real in the digital sense!";
-  if (input.includes("are you a robot")) return "Technically, yes!";
-  if (input.includes("who created you")) return "I was created by a human using code.";
-  if (input.includes("what can you do")) return "I can chat with you and answer simple questions.";
-  if (input.includes("are you smart")) return "I try my best to be helpful!";
-  if (input.includes("can you learn")) return "Not yet, but maybe one day!";
+      if (input.includes("are you real")) return "I'm real in the digital sense!";
+      if (input.includes("are you a robot")) return "Technically, yes!";
+      if (input.includes("who created you")) return "I was created by a human using code.";
+      if (input.includes("what can you do")) return "I can chat with you and answer simple questions.";
+      if (input.includes("are you smart")) return "I try my best to be helpful!";
+      if (input.includes("can you learn")) return "Not yet, but maybe one day!";
 
-  // Personal/Emotions
-  if (input.includes("i'm sad") || input.includes("i am sad")) return "I'm here for you. Want to talk about it?";
-  if (input.includes("tell me something fun")) return "Did you know honey never spoils?";
-  if (input.includes("i need help")) return "I'm here! How can I help you?";
+      if (input.includes("i'm sad") || input.includes("i am sad")) return "I'm here for you. Want to talk about it?";
+      if (input.includes("tell me something fun")) return "Did you know honey never spoils?";
+      if (input.includes("i need help")) return "I'm here! How can I help you?";
 
-  // Fun/Entertainment
-  if (input.includes("tell me a joke")) return "Why don’t scientists trust atoms? Because they make up everything!";
-  if (input.includes("favorite color")) return "I like blue. It reminds me of the sky.";
+      if (input.includes("tell me a joke")) return "Why don’t scientists trust atoms? Because they make up everything!";
+      if (input.includes("favorite color")) return "I like blue. It reminds me of the sky.";
 
-  // Time and date
-  if (input.includes("what time") || input.includes("current time")) return `It's ${new Date().toLocaleTimeString()}.`;
-  if (input.includes("what's the date") || input.includes("today's date")) return `Today is ${new Date().toLocaleDateString()}.`;
+      if (input.includes("what time") || input.includes("current time")) return `It's ${new Date().toLocaleTimeString()}.`;
+      if (input.includes("what's the date") || input.includes("today's date")) return `Today is ${new Date().toLocaleDateString()}.`;
 
-  // Math & facts
-  if (input.includes("what is 2 + 2")) return "That's 4!";
-  if (input.includes("who is the president")) return "I suggest checking a news source for the latest!";
-  if (input.includes("how far is the moon")) return "On average, it's about 384,400 km from Earth.";
+      if (input.includes("what is 2 + 2")) return "That's 4!";
+      if (input.includes("who is the president")) return "I suggest checking a news source for the latest!";
+      if (input.includes("how far is the moon")) return "On average, it's about 384,400 km from Earth.";
 
-  // Curious/random
-  if (input.includes("can you think")) return "Not like humans, but I follow logical rules.";
-  if (input.includes("do you sleep")) return "Nope, I'm always awake!";
-  if (input.includes("do you dream")) return "Only of electric sheep. 😉";
-  if (input.includes("do you eat")) return "No food for me, just data!";
-  if (input.includes("are you better than humans")) return "Definitely not! I'm here to assist, not replace.";
+      if (input.includes("can you think")) return "Not like humans, but I follow logical rules.";
+      if (input.includes("do you sleep")) return "Nope, I'm always awake!";
+      if (input.includes("do you dream")) return "Only of electric sheep. 😉";
+      if (input.includes("do you eat")) return "No food for me, just data!";
+      if (input.includes("are you better than humans")) return "Definitely not! I'm here to assist, not replace.";
 
-  return "I'm not sure how to respond to that. Could you try asking in a different way?";
-}
+      return "I'm not sure how to respond to that. Could you try asking in a different way?";
+    }
   </script>
 </body>
 </html>
